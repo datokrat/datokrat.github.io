@@ -17187,12 +17187,13 @@ module.exports = g;
 /*!*************************!*\
   !*** ./src/markdown.js ***!
   \*************************/
-/*! exports provided: parseMarkdown, parseMarkdownParagraph, parseNext, parseLeadingText, parseLeadingLink, parseBetweenDelimiters, parseLeadingKatexBlockFormula, parseLeadingKatexInlineFormula, parseLeadingItalicText, parseLeadingBoldText */
+/*! exports provided: parseMarkdown, parseMarkdownParagraphContent, parseMarkdownParagraph, parseNext, parseLeadingText, parseLeadingLink, parseBetweenDelimiters, parseLeadingKatexBlockFormula, parseLeadingKatexInlineFormula, parseLeadingItalicText, parseLeadingBoldText */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseMarkdown", function() { return parseMarkdown; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseMarkdownParagraphContent", function() { return parseMarkdownParagraphContent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseMarkdownParagraph", function() { return parseMarkdownParagraph; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseNext", function() { return parseNext; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseLeadingText", function() { return parseLeadingText; });
@@ -17340,7 +17341,7 @@ function createSection(name, collapse, lines) {
   });
 }
 
-function parseMarkdownParagraph(markdown) {
+function parseMarkdownParagraphContent(markdown) {
   const result = [];
   let lastItem = null;
   let i = 0;
@@ -17368,7 +17369,11 @@ function parseMarkdownParagraph(markdown) {
     result.push(lastItem);
   }
 
-  return { type: "paragraph", content: result };
+  return result;
+}
+
+function parseMarkdownParagraph(markdown) {
+  return { type: "paragraph", content: parseMarkdownParagraphContent(markdown) };
 }
 
 function parseNext(markdown) {
@@ -17401,7 +17406,7 @@ function parseNext(markdown) {
 }
 
 function parseLeadingText(markdown) {
-  const endIndex = markdown.search(/(\[\[)|(\*)|(\$)|\\/g);
+  const endIndex = markdown.search(/(\[\[)|(\*)|(_)|(\$)|\\/g);
   if (markdown.length === 0) {
     return [null, markdown];
   }
@@ -17520,7 +17525,7 @@ function parseLeadingItalicText(markdown) {
     markdown,
     "*",
     (content) => {
-      return content.length > 0 ? { type: "italic", value: content } : null;
+      return content.length > 0 ? { type: "italic", content: parseMarkdownParagraphContent(content) } : null;
     },
     "*"
   );
@@ -17529,11 +17534,11 @@ function parseLeadingItalicText(markdown) {
 function parseLeadingBoldText(markdown) {
   return parseBetweenDelimiters(
     markdown,
-    "**",
+    "__",
     (content) => {
-      return content.length > 0 ? { type: "bold", value: content } : null;
+      return content.length > 0 ? { type: "bold", content: parseMarkdownParagraphContent(content) } : null;
     },
-    "**"
+    "__"
   );
 }
 

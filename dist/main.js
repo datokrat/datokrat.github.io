@@ -24158,7 +24158,7 @@ class App {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("In *this article **I** describe a fascinating connection between [[shallowly linearly independent sets|toggle:sli]]\nand [[linear codes|toggle:linear codes]]*.\n\n_ sli\n    Two years ago, my friend Kolja stated an interesting problem. Let $V \\coloneqq \\mathbb{F}_2^n$ be the vector space of \n    binary words of length $n$. For $k\\in \\mathbb{N}$, how large a subset $M \\subseteq \\mathbb{F}_2^n$ can we find such\n    that every subset $A\\subseteq M$ of size $\\le k$ is linearly independent?\n    \n    I have investigated this problem in a [[writeup|https://github.com/datokrat/shallow-linear-independence/blob/master/lokal-linear-unabh%C3%A4ngig.pdf]] in German and propose to call such sets shallowly linearly independent or, more specific, linearly $k$-independent.\n\n_ linear codes\n    A linear code is a concept from computer science. It is a linear subspace $M \\subseteq \\mathbb{F}_2^n$ of so-called codewords (adding two words means xor-ing them). $M$ is isomorphic to the vector space $\\mathbb{F}_2^{\\dim M}$, and that's why a linear code $M$ can be used to represent binary words of length $\\dim M$. Although the encoded words might be longer, some codes have interesting error-correction properties, and that's the technology we all know from barcodes and CR codes.\n\nThe central observation is that while linear independence means that there are no non-trivial linear combinations of the zero vector, liner $k$-independence means that there are no non-trivial linear combinations with at most $k$ vectors involved. It is easier to see what is going on after formalizing this relationship a bit. Given $M \\subseteq \\mathbb{F}_2^n$, write all vectors of $M$ into the rows of a large matrix $A_M$ with dimensions $\\#M \\times n$. Feel free to explore an [[example|toggle:matrix example]].\n\n_ matrix example\n    Consider, for example, $$M = \\{ 1000, 0100, 0010, 0001, 1111 \\}.$$\n    Then $$A_M = \\begin{pmatrix} 1 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & 0 \\\\ 0 & 0 & 1 & 0 \\\\ 0 & 0 & 0 & 1 \\\\ 1 & 1 & 1 & 1 \\end{pmatrix}.$$\n\nNow, linear combinations of zero are exactly those $v \\in \\mathbb{F}_2^{\\# M}$ with $v^\\top A_M = 0$, and the number of ones in $v$ (the Hamming weight) equals the number of vectors involved in the linear combination ([[example|toggle:linear combination example]]).\n\n_ linear combination example\n    In the example above, the smallest nontrivial linear combination of zero is $$ 1000 + 0100 + 0010 + 0001 + 1111 = 0.$$\n    This linear combination is represented by the vector $ 11111 $, and the fact that it is a linear combination of zero\n    can be expressed as $$ \\begin{pmatrix} 1 & 1 & 1 & 1 & 1 \\end{pmatrix} \\begin{pmatrix} 1 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & 0 \\\\ 0 & 0 & 1 & 0 \\\\ 0 & 0 & 0 & 1 \\\\ 1 & 1 & 1 & 1 \\end{pmatrix} = \\begin{pmatrix} 0 & 0 & 0 & 0 \\end{pmatrix}.$$\n\nIn other words, the set of linear combinations of zero in M equals the kernel of $A^\\top$, and by the dimension formula, we obtain\n$$ \\dim \\left<M\\right> + \\dim \\ker A^\\top = \\# M. $$\n");
+/* harmony default export */ __webpack_exports__["default"] = ("In this article I describe a fascinating connection between [[shallowly linearly independent sets|toggle:sli]]\nand [[linear codes|toggle:linear codes]].\n\n_ sli\n    Two years ago, my friend Kolja stated an interesting problem. Let $V \\coloneqq \\mathbb{F}_2^n$ be the vector space of \n    binary words of length $n$. For $k\\in \\mathbb{N}$, how large a subset $M \\subseteq \\mathbb{F}_2^n$ can we find such\n    that every subset $A\\subseteq M$ of size $\\le k$ is linearly independent?\n    \n    I have investigated this problem in a [[writeup|https://github.com/datokrat/shallow-linear-independence/blob/master/lokal-linear-unabh%C3%A4ngig.pdf]] in German and propose to call such sets shallowly linearly independent or, more specific, linearly $k$-independent.\n\n_ linear codes\n    A linear code is a concept from computer science. It is a linear subspace $M \\subseteq \\mathbb{F}_2^n$ of so-called codewords (adding two words means xor-ing them). $M$ is isomorphic to the vector space $\\mathbb{F}_2^{\\dim M}$, and that's why a linear code $M$ can be used to represent binary words of length $\\dim M$. Although the encoded words might be longer, some codes have interesting error-correction properties, and that's the technology we all know from barcodes and CR codes.\n\nThe central observation is that while linear independence means that there are no non-trivial linear combinations of the zero vector, liner $k$-independence means that there are no non-trivial linear combinations with at most $k$ vectors involved. It is easier to see what is going on after formalizing this relationship a bit. Given $M \\subseteq \\mathbb{F}_2^n$, write all vectors of $M$ into the rows of a large matrix $A_M$ with dimensions $\\#M \\times n$. Feel free to explore an [[example|toggle:matrix example]].\n\n_ matrix example\n    Consider, for example, $$M = \\{ 1000, 0100, 0010, 0001, 1111 \\}.$$\n    Then $$A_M = \\begin{pmatrix} 1 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & 0 \\\\ 0 & 0 & 1 & 0 \\\\ 0 & 0 & 0 & 1 \\\\ 1 & 1 & 1 & 1 \\end{pmatrix}.$$\n\nNow, linear combinations of zero are exactly those $v \\in \\mathbb{F}_2^{\\# M}$ with $v^\\top A_M = 0$, and the number of ones in $v$ (the Hamming weight) equals the number of vectors involved in the linear combination ([[example|toggle:linear combination example]]).\n\n_ linear combination example\n    In the example above, the smallest nontrivial linear combination of zero is $$ 1000 + 0100 + 0010 + 0001 + 1111 = 0.$$\n    This linear combination is represented by the vector $ 11111 $, and the fact that it is a linear combination of zero\n    can be expressed as $$ \\begin{pmatrix} 1 & 1 & 1 & 1 & 1 \\end{pmatrix} \\begin{pmatrix} 1 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & 0 \\\\ 0 & 0 & 1 & 0 \\\\ 0 & 0 & 0 & 1 \\\\ 1 & 1 & 1 & 1 \\end{pmatrix} = \\begin{pmatrix} 0 & 0 & 0 & 0 \\end{pmatrix}.$$\n\nIn other words, the set of linear combinations of zero in M equals the kernel of $A^\\top$, and by the dimension formula, we obtain\n$$ \\dim \\left<M\\right> + \\dim \\ker A^\\top = \\# M. $$\n");
 
 /***/ }),
 
@@ -24396,9 +24396,15 @@ class ArticleDetail {
       case "heading-1":
         return Object(snabbdom_build_package_h__WEBPACK_IMPORTED_MODULE_1__["h"])("h4", [item.value]);
       case "bold":
-        return Object(snabbdom_build_package_h__WEBPACK_IMPORTED_MODULE_1__["h"])("b", [item.value]);
+        return Object(snabbdom_build_package_h__WEBPACK_IMPORTED_MODULE_1__["h"])(
+          "strong",
+          item.content.map((child) => this.renderMarkdownItem(child))
+        );
       case "italic":
-        return Object(snabbdom_build_package_h__WEBPACK_IMPORTED_MODULE_1__["h"])("i", [item.value]);
+        return Object(snabbdom_build_package_h__WEBPACK_IMPORTED_MODULE_1__["h"])(
+          "em",
+          item.content.map((child) => this.renderMarkdownItem(child))
+        );
       case "text":
         return item.value;
       case "link":
@@ -24663,12 +24669,13 @@ class BlogList {
 /*!*************************!*\
   !*** ./src/markdown.js ***!
   \*************************/
-/*! exports provided: parseMarkdown, parseMarkdownParagraph, parseNext, parseLeadingText, parseLeadingLink, parseBetweenDelimiters, parseLeadingKatexBlockFormula, parseLeadingKatexInlineFormula, parseLeadingItalicText, parseLeadingBoldText */
+/*! exports provided: parseMarkdown, parseMarkdownParagraphContent, parseMarkdownParagraph, parseNext, parseLeadingText, parseLeadingLink, parseBetweenDelimiters, parseLeadingKatexBlockFormula, parseLeadingKatexInlineFormula, parseLeadingItalicText, parseLeadingBoldText */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseMarkdown", function() { return parseMarkdown; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseMarkdownParagraphContent", function() { return parseMarkdownParagraphContent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseMarkdownParagraph", function() { return parseMarkdownParagraph; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseNext", function() { return parseNext; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseLeadingText", function() { return parseLeadingText; });
@@ -24816,7 +24823,7 @@ function createSection(name, collapse, lines) {
   });
 }
 
-function parseMarkdownParagraph(markdown) {
+function parseMarkdownParagraphContent(markdown) {
   const result = [];
   let lastItem = null;
   let i = 0;
@@ -24844,7 +24851,11 @@ function parseMarkdownParagraph(markdown) {
     result.push(lastItem);
   }
 
-  return { type: "paragraph", content: result };
+  return result;
+}
+
+function parseMarkdownParagraph(markdown) {
+  return { type: "paragraph", content: parseMarkdownParagraphContent(markdown) };
 }
 
 function parseNext(markdown) {
@@ -24877,7 +24888,7 @@ function parseNext(markdown) {
 }
 
 function parseLeadingText(markdown) {
-  const endIndex = markdown.search(/(\[\[)|(\*)|(\$)|\\/g);
+  const endIndex = markdown.search(/(\[\[)|(\*)|(_)|(\$)|\\/g);
   if (markdown.length === 0) {
     return [null, markdown];
   }
@@ -24996,7 +25007,7 @@ function parseLeadingItalicText(markdown) {
     markdown,
     "*",
     (content) => {
-      return content.length > 0 ? { type: "italic", value: content } : null;
+      return content.length > 0 ? { type: "italic", content: parseMarkdownParagraphContent(content) } : null;
     },
     "*"
   );
@@ -25005,11 +25016,11 @@ function parseLeadingItalicText(markdown) {
 function parseLeadingBoldText(markdown) {
   return parseBetweenDelimiters(
     markdown,
-    "**",
+    "__",
     (content) => {
-      return content.length > 0 ? { type: "bold", value: content } : null;
+      return content.length > 0 ? { type: "bold", content: parseMarkdownParagraphContent(content) } : null;
     },
-    "**"
+    "__"
   );
 }
 
