@@ -135,7 +135,7 @@ function createSection(name, collapse, lines) {
   });
 }
 
-export function parseMarkdownParagraph(markdown) {
+export function parseMarkdownParagraphContent(markdown) {
   const result = [];
   let lastItem = null;
   let i = 0;
@@ -163,7 +163,11 @@ export function parseMarkdownParagraph(markdown) {
     result.push(lastItem);
   }
 
-  return { type: "paragraph", content: result };
+  return result;
+}
+
+export function parseMarkdownParagraph(markdown) {
+  return { type: "paragraph", content: parseMarkdownParagraphContent(markdown) };
 }
 
 export function parseNext(markdown) {
@@ -182,11 +186,21 @@ export function parseNext(markdown) {
     return [item, rest];
   }
 
+  [item, rest] = parseLeadingBoldText(rest);
+  if (item !== null) {
+    return [item, rest];
+  }
+
+  [item, rest] = parseLeadingItalicText(rest);
+  if (item !== null) {
+    return [item, rest];
+  }
+
   return parseLeadingText(rest);
 }
 
 export function parseLeadingText(markdown) {
-  const endIndex = markdown.search(/(\[\[)|(\$)|\\/g);
+  const endIndex = markdown.search(/(\[\[)|(\*)|(_)|(\$)|\\/g);
   if (markdown.length === 0) {
     return [null, markdown];
   }
@@ -297,5 +311,27 @@ export function parseLeadingKatexInlineFormula(markdown) {
       return content.length > 0 ? { type: "katex-inline", tex: content } : null;
     },
     "$"
+  );
+}
+
+export function parseLeadingItalicText(markdown) {
+  return parseBetweenDelimiters(
+    markdown,
+    "*",
+    (content) => {
+      return content.length > 0 ? { type: "italic", content: parseMarkdownParagraphContent(content) } : null;
+    },
+    "*"
+  );
+}
+
+export function parseLeadingBoldText(markdown) {
+  return parseBetweenDelimiters(
+    markdown,
+    "__",
+    (content) => {
+      return content.length > 0 ? { type: "bold", content: parseMarkdownParagraphContent(content) } : null;
+    },
+    "__"
   );
 }

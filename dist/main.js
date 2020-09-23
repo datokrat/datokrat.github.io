@@ -24395,6 +24395,16 @@ class ArticleDetail {
         );
       case "heading-1":
         return Object(snabbdom_build_package_h__WEBPACK_IMPORTED_MODULE_1__["h"])("h4", [item.value]);
+      case "bold":
+        return Object(snabbdom_build_package_h__WEBPACK_IMPORTED_MODULE_1__["h"])(
+          "strong",
+          item.content.map((child) => this.renderMarkdownItem(child))
+        );
+      case "italic":
+        return Object(snabbdom_build_package_h__WEBPACK_IMPORTED_MODULE_1__["h"])(
+          "em",
+          item.content.map((child) => this.renderMarkdownItem(child))
+        );
       case "text":
         return item.value;
       case "link":
@@ -24467,6 +24477,9 @@ class ArticleDetail {
     }
 
     function createSvg(children) {
+      // Source of the SVG images: bootstrap-icons
+      // https://icons.getbootstrap.com/
+      // chevron-double-up and chevron-double-down
       return Object(snabbdom_build_package_h__WEBPACK_IMPORTED_MODULE_1__["h"])(
         "svg",
         {
@@ -24656,12 +24669,13 @@ class BlogList {
 /*!*************************!*\
   !*** ./src/markdown.js ***!
   \*************************/
-/*! exports provided: parseMarkdown, parseMarkdownParagraph, parseNext, parseLeadingText, parseLeadingLink, parseBetweenDelimiters, parseLeadingKatexBlockFormula, parseLeadingKatexInlineFormula */
+/*! exports provided: parseMarkdown, parseMarkdownParagraphContent, parseMarkdownParagraph, parseNext, parseLeadingText, parseLeadingLink, parseBetweenDelimiters, parseLeadingKatexBlockFormula, parseLeadingKatexInlineFormula, parseLeadingItalicText, parseLeadingBoldText */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseMarkdown", function() { return parseMarkdown; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseMarkdownParagraphContent", function() { return parseMarkdownParagraphContent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseMarkdownParagraph", function() { return parseMarkdownParagraph; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseNext", function() { return parseNext; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseLeadingText", function() { return parseLeadingText; });
@@ -24669,6 +24683,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseBetweenDelimiters", function() { return parseBetweenDelimiters; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseLeadingKatexBlockFormula", function() { return parseLeadingKatexBlockFormula; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseLeadingKatexInlineFormula", function() { return parseLeadingKatexInlineFormula; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseLeadingItalicText", function() { return parseLeadingItalicText; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseLeadingBoldText", function() { return parseLeadingBoldText; });
 /* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
 
 
@@ -24807,7 +24823,7 @@ function createSection(name, collapse, lines) {
   });
 }
 
-function parseMarkdownParagraph(markdown) {
+function parseMarkdownParagraphContent(markdown) {
   const result = [];
   let lastItem = null;
   let i = 0;
@@ -24835,7 +24851,11 @@ function parseMarkdownParagraph(markdown) {
     result.push(lastItem);
   }
 
-  return { type: "paragraph", content: result };
+  return result;
+}
+
+function parseMarkdownParagraph(markdown) {
+  return { type: "paragraph", content: parseMarkdownParagraphContent(markdown) };
 }
 
 function parseNext(markdown) {
@@ -24854,11 +24874,21 @@ function parseNext(markdown) {
     return [item, rest];
   }
 
+  [item, rest] = parseLeadingBoldText(rest);
+  if (item !== null) {
+    return [item, rest];
+  }
+
+  [item, rest] = parseLeadingItalicText(rest);
+  if (item !== null) {
+    return [item, rest];
+  }
+
   return parseLeadingText(rest);
 }
 
 function parseLeadingText(markdown) {
-  const endIndex = markdown.search(/(\[\[)|(\$)|\\/g);
+  const endIndex = markdown.search(/(\[\[)|(\*)|(_)|(\$)|\\/g);
   if (markdown.length === 0) {
     return [null, markdown];
   }
@@ -24969,6 +24999,28 @@ function parseLeadingKatexInlineFormula(markdown) {
       return content.length > 0 ? { type: "katex-inline", tex: content } : null;
     },
     "$"
+  );
+}
+
+function parseLeadingItalicText(markdown) {
+  return parseBetweenDelimiters(
+    markdown,
+    "*",
+    (content) => {
+      return content.length > 0 ? { type: "italic", content: parseMarkdownParagraphContent(content) } : null;
+    },
+    "*"
+  );
+}
+
+function parseLeadingBoldText(markdown) {
+  return parseBetweenDelimiters(
+    markdown,
+    "__",
+    (content) => {
+      return content.length > 0 ? { type: "bold", content: parseMarkdownParagraphContent(content) } : null;
+    },
+    "__"
   );
 }
 
