@@ -71,6 +71,10 @@ export class ArticleDetail {
         );
       case "heading-1":
         return h("h4", [item.value]);
+      case "bold":
+        return h("b", [item.value]);
+      case "italic":
+        return h("i", [item.value]);
       case "text":
         return item.value;
       case "link":

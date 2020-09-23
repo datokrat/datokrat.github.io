@@ -182,11 +182,21 @@ export function parseNext(markdown) {
     return [item, rest];
   }
 
+  [item, rest] = parseLeadingBoldText(rest);
+  if (item !== null) {
+    return [item, rest];
+  }
+
+  [item, rest] = parseLeadingItalicText(rest);
+  if (item !== null) {
+    return [item, rest];
+  }
+
   return parseLeadingText(rest);
 }
 
 export function parseLeadingText(markdown) {
-  const endIndex = markdown.search(/(\[\[)|(\$)|\\/g);
+  const endIndex = markdown.search(/(\[\[)|(\*)|(\$)|\\/g);
   if (markdown.length === 0) {
     return [null, markdown];
   }
@@ -297,5 +307,27 @@ export function parseLeadingKatexInlineFormula(markdown) {
       return content.length > 0 ? { type: "katex-inline", tex: content } : null;
     },
     "$"
+  );
+}
+
+export function parseLeadingItalicText(markdown) {
+  return parseBetweenDelimiters(
+    markdown,
+    "*",
+    (content) => {
+      return content.length > 0 ? { type: "italic", value: content } : null;
+    },
+    "*"
+  );
+}
+
+export function parseLeadingBoldText(markdown) {
+  return parseBetweenDelimiters(
+    markdown,
+    "**",
+    (content) => {
+      return content.length > 0 ? { type: "bold", value: content } : null;
+    },
+    "**"
   );
 }

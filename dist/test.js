@@ -17187,7 +17187,7 @@ module.exports = g;
 /*!*************************!*\
   !*** ./src/markdown.js ***!
   \*************************/
-/*! exports provided: parseMarkdown, parseMarkdownParagraph, parseNext, parseLeadingText, parseLeadingLink, parseBetweenDelimiters, parseLeadingKatexBlockFormula, parseLeadingKatexInlineFormula */
+/*! exports provided: parseMarkdown, parseMarkdownParagraph, parseNext, parseLeadingText, parseLeadingLink, parseBetweenDelimiters, parseLeadingKatexBlockFormula, parseLeadingKatexInlineFormula, parseLeadingItalicText, parseLeadingBoldText */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17200,6 +17200,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseBetweenDelimiters", function() { return parseBetweenDelimiters; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseLeadingKatexBlockFormula", function() { return parseLeadingKatexBlockFormula; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseLeadingKatexInlineFormula", function() { return parseLeadingKatexInlineFormula; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseLeadingItalicText", function() { return parseLeadingItalicText; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseLeadingBoldText", function() { return parseLeadingBoldText; });
 /* harmony import */ var immutable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
 
 
@@ -17385,11 +17387,21 @@ function parseNext(markdown) {
     return [item, rest];
   }
 
+  [item, rest] = parseLeadingBoldText(rest);
+  if (item !== null) {
+    return [item, rest];
+  }
+
+  [item, rest] = parseLeadingItalicText(rest);
+  if (item !== null) {
+    return [item, rest];
+  }
+
   return parseLeadingText(rest);
 }
 
 function parseLeadingText(markdown) {
-  const endIndex = markdown.search(/(\[\[)|(\$)|\\/g);
+  const endIndex = markdown.search(/(\[\[)|(\*)|(\$)|\\/g);
   if (markdown.length === 0) {
     return [null, markdown];
   }
@@ -17500,6 +17512,28 @@ function parseLeadingKatexInlineFormula(markdown) {
       return content.length > 0 ? { type: "katex-inline", tex: content } : null;
     },
     "$"
+  );
+}
+
+function parseLeadingItalicText(markdown) {
+  return parseBetweenDelimiters(
+    markdown,
+    "*",
+    (content) => {
+      return content.length > 0 ? { type: "italic", value: content } : null;
+    },
+    "*"
+  );
+}
+
+function parseLeadingBoldText(markdown) {
+  return parseBetweenDelimiters(
+    markdown,
+    "**",
+    (content) => {
+      return content.length > 0 ? { type: "bold", value: content } : null;
+    },
+    "**"
   );
 }
 
