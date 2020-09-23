@@ -12,7 +12,7 @@ Crosscutt is the software that powers my personal blog. Here are the key facts y
 
 ## Getting Started
 
-To use this software, you will need Node.js and a Node.js package manager. I use [https://yarnpkg.com/](Yarn) but it should be possible to use NPM, too.
+To use this software, you will need Node.js and a Node.js package manager. I use [Yarn](https://yarnpkg.com/) but it should be possible to use NPM, too.
 
 Open a terminal and execute:
 ```sh
@@ -27,7 +27,7 @@ yarn build
 
 ## Creating Content
 
-Please take a look at the file  [./src/data-seed.js](`data-seed.js`). Write your articles into an `article-*.txt` file and `import` it at the beginning of `data-seed.js`. Then add a new `Article` object to the list of articles.
+Please take a look at the file  [`data-seed.js`](./src/data-seed.js). Write your articles into an `article-*.txt` file and `import` it at the beginning of `data-seed.js`. Then add a new `Article` object to the list of articles.
 
 It is also possible to include resources/"references" such as EPUB files. These may be added as `EpubReference` objects to the list of `references` and will be available under the URL `[root]/?reference/[ID of reference]`.
 
@@ -113,7 +113,7 @@ After building the blog, just copy the `dist/` directory to your server.
 
 ## Vim Support
 
-I use Vim for the development. My setup is based on [https://freshman.tech/vim-javascript/](this great tutorial). The most important plugin is ALE because it automatically gives me feedback regarding the style and formatting of my code and automatically fixes the formatting using `:ALEFix`.
+I use Vim for the development. My setup is based on [this great tutorial](https://freshman.tech/vim-javascript/). The most important plugin is ALE because it automatically gives me feedback regarding the style and formatting of my code and automatically fixes the formatting using `:ALEFix`.
 
 In my `vimrc` file, I added some special key mappings for this repo. Those are:
 ```
