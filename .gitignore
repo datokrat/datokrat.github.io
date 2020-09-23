@@ -1,7 +1,4 @@
 media
-src/article-*
-src/data-seed.js
 node_modules
-dist
 *.swp
 *.swo

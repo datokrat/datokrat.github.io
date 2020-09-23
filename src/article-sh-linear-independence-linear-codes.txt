@@ -1,0 +1,9 @@
+In this article I will describe a fascinating connection between [[shallowly linearly independent sets|toggle:sli]]
+and [[linear codes|toggle:linear-codes]].
+
+_ sli
+    Two years ago, my friend Kolja stated an interesting problem. Let $V \coloneqq \mathbb{F}_2^n$ be the vector space of 
+    binary words of length $n$. For $k\in \mathbb{N}$, how large a subset $M \subseteq \mathbb{F}_2^n$ can we find such
+    that every subset $A\subseteq M$ of size $\le k$ is linearly independent?
+    
+    I have investigated this problem in a [[writeup|https://github.com/datokrat/shallow-linear-independence/blob/master/lokal-linear-unabh%C3%A4ngig.pdf]] in German and propose to call such sets shallowly linearly independent or, more specific, linearly $k$-independent.
