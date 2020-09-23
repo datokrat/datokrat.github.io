@@ -143,6 +143,9 @@ export class ArticleDetail {
     }
 
     function createSvg(children) {
+      // Source of the SVG images: bootstrap-icons
+      // https://icons.getbootstrap.com/
+      // chevron-double-up and chevron-double-down
       return h(
         "svg",
         {
