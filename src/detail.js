@@ -72,9 +72,15 @@ export class ArticleDetail {
       case "heading-1":
         return h("h4", [item.value]);
       case "bold":
-        return h("b", [item.value]);
+        return h(
+          "strong",
+          item.content.map((child) => this.renderMarkdownItem(child))
+        );
       case "italic":
-        return h("i", [item.value]);
+        return h(
+          "em",
+          item.content.map((child) => this.renderMarkdownItem(child))
+        );
       case "text":
         return item.value;
       case "link":

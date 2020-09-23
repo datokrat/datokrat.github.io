@@ -135,7 +135,7 @@ function createSection(name, collapse, lines) {
   });
 }
 
-export function parseMarkdownParagraph(markdown) {
+export function parseMarkdownParagraphContent(markdown) {
   const result = [];
   let lastItem = null;
   let i = 0;
@@ -163,7 +163,11 @@ export function parseMarkdownParagraph(markdown) {
     result.push(lastItem);
   }
 
-  return { type: "paragraph", content: result };
+  return result;
+}
+
+export function parseMarkdownParagraph(markdown) {
+  return { type: "paragraph", content: parseMarkdownParagraphContent(markdown) };
 }
 
 export function parseNext(markdown) {
@@ -196,7 +200,7 @@ export function parseNext(markdown) {
 }
 
 export function parseLeadingText(markdown) {
-  const endIndex = markdown.search(/(\[\[)|(\*)|(\$)|\\/g);
+  const endIndex = markdown.search(/(\[\[)|(\*)|(_)|(\$)|\\/g);
   if (markdown.length === 0) {
     return [null, markdown];
   }
@@ -315,7 +319,7 @@ export function parseLeadingItalicText(markdown) {
     markdown,
     "*",
     (content) => {
-      return content.length > 0 ? { type: "italic", value: content } : null;
+      return content.length > 0 ? { type: "italic", content: parseMarkdownParagraphContent(content) } : null;
     },
     "*"
   );
@@ -324,10 +328,10 @@ export function parseLeadingItalicText(markdown) {
 export function parseLeadingBoldText(markdown) {
   return parseBetweenDelimiters(
     markdown,
-    "**",
+    "__",
     (content) => {
-      return content.length > 0 ? { type: "bold", value: content } : null;
+      return content.length > 0 ? { type: "bold", content: parseMarkdownParagraphContent(content) } : null;
     },
-    "**"
+    "__"
   );
 }
